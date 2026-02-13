@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okoh Paul Ekondu | Cybersecurity Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0e27;
+            --secondary: #1a1f3a;
+            --accent: #00d9ff;
+            --accent-dark: #0099cc;
+            --text: #e8eaed;
+            --text-muted: #9aa0a6;
+            --border: #2a2f4a;
+            --card-bg: #13182e;
+            --success: #00ff88;
+            --warning: #ffaa00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.9);
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before { content: '>'; color: var(--success); }
+
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 8rem;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .subtitle { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .hero .tagline {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        /* Reusable Components */
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .btn-primary { background: var(--accent); color: var(--primary); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 217, 255, 0.2); }
+        .btn-secondary { border: 2px solid var(--accent); color: var(--accent); }
+
+        section { padding: 5rem 0; }
+        .section-title { font-size: 2.5rem; margin-bottom: 3rem; position: relative; }
+        .section-title::after {
+            content: ''; position: absolute; bottom: -10px; left: 0;
+            width: 50px; height: 4px; background: var(--accent);
+        }
+
+        /* Grids */
+        .certifications-grid, .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-card, .skill-category, .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .cert-card:hover, .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: var(--secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            margin: 0.3rem;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+
+        .tech-badge {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--success);
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+
+        /* Contact Section Styles */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        .form-group input, .form-group textarea {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+            color: var(--text);
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        /* Animation Classes */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        footer { text-align: center; padding: 4rem 0; border-top: 1px solid var(--border); margin-top: 4rem; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero { padding: 6rem 0; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Bastion</a>
+            <ul class="nav-links">
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Okoh Paul Ekondu</h1>
+            <p class="subtitle">Cybersecurity Professional</p>
+            <p class="tagline">$ whoami | "SOC Analyst • Threat Hunting • Security Research"</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="container">
+        <h2 class="section-title">Certifications</h2>
+        <div class="certifications-grid fade-in">
+            <div class="cert-card">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">🛡️</div>
+                <h3>QUALYS</h3>
+                <p style="color: var(--accent)">VMDR Certified Specialist</p>
+                <p class="tagline">2025</p>
+            </div>
+            <div class="cert-card">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">🔐</div>
+                <h3>Security+</h3>
+                <p style="color: var(--accent)">CompTIA</p>
+                <p class="tagline">2026</p>
+            </div>
+            <div class="cert-card">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                <h3>CEH</h3>
+                <p style="color: var(--accent)">EC-Council</p>
+                <p class="tagline">In Progress</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="container">
+        <h2 class="section-title">Technical Arsenal</h2>
+        <div class="skills-container fade-in">
+            <div class="skill-category">
+                <h3>Blue Team & SIEM</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Splunk</span><span class="skill-tag">Sysmon</span><span class="skill-tag">Wireshark</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Programming</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span><span class="skill-tag">Bash</span><span class="skill-tag">PowerShell</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="container">
+        <h2 class="section-title">Security Projects</h2>
+        <div class="fade-in">
+            <div class="project-card">
+                <div class="project-header">
+                    <h3 class="project-title" style="color: var(--accent);">Enterprise SIEM & Threat Detection Lab</h3>
+                    <div class="project-meta" style="margin-bottom: 1rem;">
+                        <span>📅 2026</span> | <span>🔧 Active Research</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Architected a security monitoring environment focused on <strong>log ingestion and detection engineering</strong>. Deployed Splunk Enterprise to ingest telemetry from Pop!_OS via Universal Forwarder.
+                    </p>
+
+                    <div class="project-highlights" style="margin-top: 1.5rem;">
+                        <h4 style="color: var(--success); font-family: 'JetBrains Mono'; font-size: 0.9rem; margin-bottom: 1rem;">> Detection_Engineering.log</h4>
+                        
+                        <div style="background: #050714; padding: 1rem; border-radius: 8px; border-left: 3px solid var(--success); margin-bottom: 1.5rem;">
+                            <p style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">// Logic: Brute Force Detection (T1110)</p>
+                            <code style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #d1d1d1; display: block; white-space: pre-wrap;">index=main sourcetype="linux_secure" "Failed password" 
+| stats count by src_ip, user 
+| where count >= 10 
+| table _time, src_ip, user, count</code>
+                        </div>
+
+                        <ul style="list-style: none; padding-left: 0.5rem; color: var(--text-muted); font-size: 0.95rem;">
+                            <li style="margin-bottom: 0.8rem;">• <strong>Automated Pipeline:</strong> Real-time alerting for <code>auth.log</code> ingestion.</li>
+                            <li style="margin-bottom: 0.8rem;">• <strong>Regex Engineering:</strong> Custom extractions for normalizing "unknown" user entities.</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-tech" style="margin-top: 1.5rem;">
+                        <span class="tech-badge">Splunk</span>
+                        <span class="tech-badge">Linux Security</span>
+                        <span class="tech-badge">MITRE ATT&CK</span>
+                    </div>
+                    
+                    <div class="project-links" style="margin-top: 2rem;">
+                        <a href="https://github.com/Alchemy-Paul/Home-Security-Operations-Center--SOC--Lab-with-Centralized-SIEM" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;">View GitHub Repo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="container">
+        <h2 class="section-title">Establish Connection</h2>
+        <div class="contact-grid fade-in">
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>IDENT_NAME</label>
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label>RETURN_ADDRESS</label>
+                    <input type="email" placeholder="email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>ENCRYPTED_MESSAGE</label>
+                    <textarea rows="5" placeholder="Type your message here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: fit-content;">Send Message</button>
+            </form>
+
+            <div class="contact-details">
+                <div class="contact-info-item">
+                    <div class="info-icon">📧</div>
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem; font-family: 'JetBrains Mono';">EMAIL</p>
+                        <p>paulokoho21@gmail.com</p> 
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="info-icon">🔗</div>
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem; font-family: 'JetBrains Mono';">LINKEDIN</p>
+                        <a href="https://linkedin.com/in/okoh-paul-ekondu" style="color: var(--text); text-decoration: none;">okoh-paul-ekondu</a>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="info-icon">💻</div>
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem; font-family: 'JetBrains Mono';">GITHUB</p>
+                        <a href="https://github.com/Alchemy-Paul/" style="color: var(--text); text-decoration: none;">Alchemy-Paul</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="container">
+        <p>&copy; 2026 Okoh Paul Ekondu. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
